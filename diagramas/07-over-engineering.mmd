@@ -1,0 +1,8 @@
+flowchart LR
+    subgraph Simples["Regra que não varia"]
+        A[Pedido] --> B["calcularImposto()<br/>implementação única"]
+    end
+    subgraph Excesso["Strategy prematuro"]
+        C[Pedido] --> D{{RegraImposto}}
+        E[ImpostoPadrao] -.-> D
+    end
