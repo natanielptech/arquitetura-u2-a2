@@ -1,0 +1,132 @@
+package br.com.natanielpaiva.padroes.catalogo;
+
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+
+@Component
+public class PatternCatalog {
+    private final List<PatternInfo> patterns = List.of(
+            new PatternInfo("singleton", "Singleton", "Criacional",
+                    "Controla o acesso a uma única instância compartilhada.",
+                    "Vários objetos precisam acessar o mesmo recurso e a instância única é uma restrição real.",
+                    "Um ponto de acesso centralizado mantém a instância e controla sua criação.",
+                    "Acesso global e estado compartilhado dificultam testes e podem acoplar partes distantes do sistema.",
+                    "Chamadas repetidas criam cópias de um recurso que deveria ser único.",
+                    "Nenhum vínculo direto; prefira injeção de dependência para controlar o ciclo de vida.",
+                    "enum Registro { INSTANCIA; }",
+                    "singletonUsesOneInstance"),
+            new PatternInfo("factory-method", "Factory Method", "Criacional",
+                    "Adia a escolha do tipo concreto para uma fábrica extensível.",
+                    "O código cliente precisa criar produtos, mas não deve conhecer todas as classes concretas.",
+                    "Uma operação de criação é redefinida por fábricas concretas para retornar produtos compatíveis.",
+                    "Adiciona classes de fábrica e pode ser excessivo quando há apenas uma criação simples.",
+                    "Condicionais extensas escolhem qual implementação instanciar.",
+                    "Apoia OCP ao permitir novos produtos sem alterar o cliente.",
+                    "interface Canal { void enviar(String texto); }",
+                    "factoryMethodCreatesTheSelectedProduct"),
+            new PatternInfo("abstract-factory", "Abstract Factory", "Criacional",
+                    "Cria famílias de objetos relacionados sem expor suas classes concretas.",
+                    "Uma aplicação oferece variantes de componentes que precisam ser usadas em conjunto.",
+                    "Uma fábrica abstrata declara operações para criar cada produto; fábricas concretas fornecem famílias coerentes.",
+                    "A inclusão de um novo tipo de produto exige alterar todas as fábricas da família.",
+                    "Criações dispersas podem combinar componentes de variantes incompatíveis.",
+                    "Pode apoiar OCP na troca de famílias; aumenta abstrações.",
+                    "interface FabricaUI { Botao criarBotao(); Campo criarCampo(); }",
+                    "abstractFactoryCreatesAConsistentFamily"),
+            new PatternInfo("builder", "Builder", "Criacional",
+                    "Constrói objetos complexos em etapas legíveis.",
+                    "Um objeto possui muitos parâmetros opcionais ou precisa respeitar invariantes durante a construção.",
+                    "Um builder acumula as escolhas e produz um objeto válido ao final.",
+                    "Cria uma classe adicional e é desnecessário para objetos pequenos com poucos campos.",
+                    "Construtores telescópicos ou muitos parâmetros booleanos.",
+                    "Pode manter SRP separando construção da representação.",
+                    "Pedido pedido = Pedido.builder().cliente(\"Ana\").urgente(true).build();",
+                    "builderCreatesValidObjectsAndRejectsMissingRequiredFields"),
+            new PatternInfo("adapter", "Adapter", "Estrutural",
+                    "Converte uma interface externa para a interface esperada pela aplicação.",
+                    "Uma dependência útil possui operações ou formatos incompatíveis com o domínio.",
+                    "Um adaptador implementa a interface do domínio e delega à biblioteca externa, traduzindo dados.",
+                    "Mais uma camada para manter e possível perda de recursos específicos da biblioteca.",
+                    "Cliente conhece diretamente SDKs ou APIs com formatos incompatíveis.",
+                    "Aplica DIP: o domínio depende de uma abstração própria.",
+                    "class Adaptador implements Pagamento { /* traduz e delega ao SDK */ }",
+                    "adapterTranslatesAmountToLegacyCents"),
+            new PatternInfo("decorator", "Decorator", "Estrutural",
+                    "Combina responsabilidades opcionais envolvendo objetos compatíveis.",
+                    "Variações combináveis gerariam uma explosão de subclasses.",
+                    "Decoradores implementam a mesma interface e delegam ao próximo objeto, adicionando comportamento.",
+                    "A cadeia de objetos pode ficar difícil de inspecionar e depurar.",
+                    "Subclasses para combinações de funcionalidades opcionais.",
+                    "SRP pode ser favorecido ao separar responsabilidades; não é uma relação exclusiva.",
+                    "new ComLeite(new CafeSimples()).preco();",
+                    "decoratorAddsOptionalBehaviorWithoutChangingTheBase"),
+            new PatternInfo("facade", "Facade", "Estrutural",
+                    "Oferece uma entrada simples para um subsistema complexo.",
+                    "Clientes precisam coordenar diversas classes para executar uma tarefa comum.",
+                    "Uma fachada orquestra o subsistema e expõe operações específicas ao cliente.",
+                    "A fachada pode crescer demais se acumular responsabilidades de muitos casos de uso.",
+                    "O mesmo roteiro de chamadas ao subsistema se repete em vários clientes.",
+                    "Relaciona-se ao ISP ao oferecer uma interface menor e focada.",
+                    "@Service class Checkout { /* orquestra estoque, pagamento e entrega */ }",
+                    "facadeCoordinatesSubsystemSteps"),
+            new PatternInfo("composite", "Composite", "Estrutural",
+                    "Trata objetos individuais e composições de forma uniforme.",
+                    "Clientes precisam operar sobre estruturas hierárquicas de elementos.",
+                    "Folhas e composições implementam uma interface comum; composições delegam a operação aos filhos.",
+                    "A interface comum pode restringir operações específicas de folhas e composições.",
+                    "Condicionais distinguem nós internos de elementos terminais.",
+                    "Não tem vínculo direto obrigatório com SOLID.",
+                    "interface Item { BigDecimal total(); }",
+                    "compositeTreatsLeavesAndGroupsUniformly"),
+            new PatternInfo("strategy", "Strategy", "Comportamental",
+                    "Encapsula algoritmos intercambiáveis sob uma interface comum.",
+                    "Uma regra varia por contexto ou uma cadeia de condicionais escolhe algoritmos.",
+                    "O cliente delega o algoritmo a uma estratégia selecionada por contexto.",
+                    "Mais tipos e configuração; pode ser exagero para uma regra estável e trivial.",
+                    "Condicionais por tipo crescem ou novos algoritmos exigem editar o cliente.",
+                    "Aplica OCP: novos algoritmos sem alterar o cliente.",
+                    "List<Frete> fretes; fretes.stream().filter(f -> f.aceita(destino));",
+                    "strategyCanBeChangedWithoutChangingTheService"),
+            new PatternInfo("observer", "Observer", "Comportamental",
+                    "Notifica interessados quando um evento acontece.",
+                    "Vários componentes reagem a uma mudança sem acoplar o emissor a cada consumidor.",
+                    "O emissor publica um evento; observadores inscritos recebem a notificação.",
+                    "Fluxo indireto dificulta rastrear efeitos; ordem e falhas dos ouvintes precisam ser consideradas.",
+                    "Uma classe central chama diretamente vários consumidores após cada mudança.",
+                    "Contribui para baixo acoplamento, sem mapear a um princípio SOLID único.",
+                    "publisher.publishEvent(new PedidoCriado(id));",
+                    "observerNotifiesSubscribersWithoutCouplingPublisherToThem"),
+            new PatternInfo("template-method", "Template Method", "Comportamental",
+                    "Define o esqueleto de um algoritmo e permite variar etapas.",
+                    "Fluxos seguem a mesma sequência, mas algumas etapas mudam entre variantes.",
+                    "Uma classe-base controla o algoritmo e delega etapas específicas a métodos sobrescritos.",
+                    "Herança acopla subclasses à sequência e pode ser menos flexível que composição.",
+                    "Algoritmos duplicam a mesma sequência com pequenas variações.",
+                    "Pode apoiar OCP, mas herança deve permanecer estável.",
+                    "final void exportar() { validar(); transformar(); salvar(); }",
+                    "templateMethodKeepsTheAlgorithmSequence"),
+            new PatternInfo("command", "Command", "Comportamental",
+                    "Representa uma solicitação como objeto executável.",
+                    "Operações precisam ser enfileiradas, registradas, adiadas ou desfeitas.",
+                    "Um comando encapsula ação e receptor; um invocador executa sem conhecer os detalhes.",
+                    "Cria objetos e infraestrutura adicional para cada ação.",
+                    "Invocador conhece detalhes do receptor ou mistura disparo e execução.",
+                    "Pode apoiar SRP ao separar quem solicita de quem executa.",
+                    "interface Comando { void executar(); }",
+                    "commandSeparatesRequestFromItsReceiver")
+    );
+
+    public List<PatternInfo> all() {
+        return patterns;
+    }
+
+    public Optional<PatternInfo> find(String slug) {
+        return patterns.stream().filter(pattern -> pattern.slug().equals(slug)).findFirst();
+    }
+
+    public List<PatternInfo> byCategory(String category) {
+        return patterns.stream().filter(pattern -> pattern.categoria().equals(category)).toList();
+    }
+}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${pattern.nome} + ' | Padrões de Projeto'">Padrão | Guia visual</title><link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="/">Padrões<span>.</span></a><nav><a href="/#catalogo">Catálogo</a><a href="/#decisao">Como decidir</a></nav></header>
+<main class="detail">
+    <a class="back" href="/#catalogo">← Voltar ao catálogo</a>
+    <p class="eyebrow" th:text="${pattern.categoria} + ' · CATÁLOGO GANG OF FOUR'">Categoria · CATÁLOGO GOF</p>
+    <h1 th:text="${pattern.nome}">Nome</h1><p class="intro" th:text="${pattern.resumo}">Resumo</p>
+    <div class="detail-grid">
+        <article><span class="eyebrow">01 · PROBLEMA</span><p th:text="${pattern.problema}">Problema</p></article>
+        <article><span class="eyebrow">02 · SOLUÇÃO</span><p th:text="${pattern.solucao}">Solução</p></article>
+        <article><span class="eyebrow">03 · CONSEQUÊNCIAS</span><p th:text="${pattern.consequencias}">Consequências</p></article>
+        <article><span class="eyebrow">04 · QUANDO INVESTIGAR</span><p th:text="${pattern.smell}">Sinal</p></article>
+        <article><span class="eyebrow">RELAÇÃO COM SOLID</span><p th:text="${pattern.solid}">Princípio</p></article>
+        <article class="example"><span class="eyebrow">EXEMPLO ADICIONAL · JAVA</span><pre><code th:text="${pattern.exemplo}">Exemplo</code></pre><p>Teste JUnit 5: <code th:text="${pattern.teste}">nomeDoTeste</code>. Implementação e teste completos no repositório.</p></article>
+    </div>
+    <aside class="callout"><strong>Antes de aplicar:</strong> o problema já se manifestou ou está claramente previsto? Compare o benefício com o custo de classes, complexidade e desempenho.</aside>
+    <a class="button" href="/#catalogo">Ver outros padrões</a>
+    <footer><span>Unidade 2 · Aula 2 — Prof. Nataniel Paiva</span><a href="/">Início</a></footer>
+</main>
+</body></html>

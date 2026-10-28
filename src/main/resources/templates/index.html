@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Guia visual para entender, escolher e aplicar padrões de projeto GoF.">
+    <title>Padrões de Projeto | Guia visual</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="/">Padrões<span>.</span></a><nav><a href="#guia">O guia</a><a href="#catalogo">Catálogo</a><a href="#decisao">Como decidir</a></nav></header>
+<main>
+    <section class="hero">
+        <p class="eyebrow">ARQUITETURA DE SOFTWARE · UNIDADE 2, AULA 2</p>
+        <h1>Menos receitas.<br><span>Mais decisões conscientes.</span></h1>
+        <p class="intro">Um guia visual para entender padrões de projeto, identificar quando ajudam e, principalmente, quando não usar.</p>
+        <a class="button" href="#catalogo">Explorar os 12 padrões <span aria-hidden="true">↓</span></a>
+        <div class="hero-note"><strong>Uma boa pergunta muda tudo:</strong> “qual é exatamente o meu problema?” — não “qual padrão posso usar?”</div>
+    </section>
+
+    <section id="guia" class="section">
+        <p class="eyebrow">FUNDAMENTOS</p><h2>Uma linguagem para problemas recorrentes</h2>
+        <p class="section-lead">Christopher Alexander descreveu padrões como problemas recorrentes em um contexto e o núcleo de uma solução. Em 1994, a Gang of Four organizou 23 padrões orientados a objetos em um vocabulário compartilhado.</p>
+        <div class="principles">
+            <article><span>01</span><h3>Nome</h3><p>Um rótulo curto para conversar sobre uma solução.</p></article>
+            <article><span>02</span><h3>Problema</h3><p>A situação e as condições em que o padrão se aplica.</p></article>
+            <article><span>03</span><h3>Solução</h3><p>Uma estrutura de colaboração entre objetos.</p></article>
+            <article><span>04</span><h3>Consequências</h3><p>Os tradeoffs: flexibilidade, custo e complexidade.</p></article>
+        </div>
+        <div class="callout"><strong>Padrão não é código pronto.</strong> É uma estrutura de colaboração reconhecida por sua intenção — não pela forma exata do código.</div>
+    </section>
+
+    <section class="section categories">
+        <p class="eyebrow">CATÁLOGO GANG OF FOUR</p><h2>Três famílias, problemas diferentes</h2>
+        <div class="category-grid">
+            <article><span class="tag">04 padrões</span><h3>Criacionais</h3><p>Controlam e flexibilizam a criação de objetos.</p><div th:each="p : ${criacionais}"><a th:href="@{/catalogo/{slug}(slug=${p.slug})}" th:text="${p.nome}">Padrão</a></div></article>
+            <article><span class="tag">04 padrões</span><h3>Estruturais</h3><p>Compõem classes e objetos em estruturas flexíveis.</p><div th:each="p : ${estruturais}"><a th:href="@{/catalogo/{slug}(slug=${p.slug})}" th:text="${p.nome}">Padrão</a></div></article>
+            <article><span class="tag">04 padrões</span><h3>Comportamentais</h3><p>Distribuem responsabilidades e algoritmos.</p><div th:each="p : ${comportamentais}"><a th:href="@{/catalogo/{slug}(slug=${p.slug})}" th:text="${p.nome}">Padrão</a></div></article>
+        </div>
+        <p class="note"><strong>Nota da aula:</strong> o slide menciona “oito padrões representativos”, mas a tabela e a Aula 3 listam doze. Este guia segue a tabela: 12 padrões.</p>
+    </section>
+
+    <section id="catalogo" class="section">
+        <p class="eyebrow">NAVEGUE POR INTENÇÃO</p><h2>O catálogo GoF: 12 padrões</h2>
+        <p class="section-lead">Cada ficha apresenta problema, solução, consequências, um sinal de código e um exemplo adicional em Java.</p>
+        <div class="pattern-grid">
+            <a class="pattern-card" th:each="p : ${patterns}" th:href="@{/catalogo/{slug}(slug=${p.slug})}">
+                <span class="tag" th:text="${p.categoria}">Categoria</span><h3 th:text="${p.nome}">Padrão</h3>
+                <p th:text="${p.resumo}">Resumo do padrão</p><span class="card-link">Ver ficha →</span>
+            </a>
+        </div>
+    </section>
+
+    <section id="decisao" class="section decision">
+        <p class="eyebrow">CRITÉRIO DE APLICABILIDADE</p><h2>O padrão resolve o problema — ou só adiciona peças?</h2>
+        <div class="steps">
+            <article><span>1</span><div><h3>Nomeie o problema</h3><p>Descreva o que está difícil sem citar um padrão.</p></div></article>
+            <article><span>2</span><div><h3>O problema já existe?</h3><p>Se não se manifestou nem está claramente previsto, não antecipe uma abstração.</p></div></article>
+            <article><span>3</span><div><h3>Compare aplicabilidade e custo</h3><p>Avalie complexidade, desempenho e quantidade de classes.</p></div></article>
+            <article><span>4</span><div><h3>Escolha a solução mais simples</h3><p>Aplique o padrão e documente a decisão só se o benefício compensar.</p></div></article>
+        </div>
+        <div class="decision-outcomes"><div><strong>Não se manifestou?</strong><span>Não aplique por precaução.</span></div><div><strong>O custo supera o ganho?</strong><span>Resolva com o mais simples possível.</span></div></div>
+    </section>
+
+    <section class="section signals">
+        <p class="eyebrow">SINAIS NO CÓDIGO</p><h2>Cheiros que podem apontar caminhos</h2>
+        <div class="signal-row"><span>Cadeia de condicionais por tipo</span><b>→</b><span>Strategy ou Factory Method</span></div>
+        <div class="signal-row"><span>Combinações opcionais explodem em subclasses</span><b>→</b><span>Decorator</span></div>
+        <div class="signal-row"><span>Vários componentes reagem ao mesmo evento</span><b>→</b><span>Observer</span></div>
+        <p class="note">Um smell é uma pista para investigar, não uma ordem automática para aplicar um padrão.</p>
+    </section>
+
+    <section class="section solid">
+        <p class="eyebrow">CONEXÕES COM SOLID</p><h2>Princípios por trás das estruturas</h2>
+        <div class="solid-grid"><div><strong>Strategy</strong><span>aplica →</span><b>OCP</b><small>Novos algoritmos sem alterar o cliente.</small></div><div><strong>Adapter</strong><span>aplica →</span><b>DIP</b><small>O domínio depende de sua própria abstração.</small></div><div><strong>Facade</strong><span>contribui →</span><b>ISP</b><small>Uma interface menor e específica para o cliente.</small></div></div>
+    </section>
+
+    <section class="section overengineering">
+        <p class="eyebrow">EXEMPLO ADICIONAL · JAVA</p><h2>Quando Strategy é over-engineering</h2>
+        <div class="compare"><article><span class="good">✓ REGRA ESTÁVEL</span><pre><code>BigDecimal calcularImposto(Pedido pedido) {
+    return pedido.total().multiply(TAXA_PADRAO);
+}</code></pre><p>Uma implementação, sem variação prevista: mantenha simples.</p></article><article><span class="bad">× ABSTRAÇÃO PREMATURA</span><pre><code>interface RegraImposto { ... }
+class ImpostoPadrao implements RegraImposto { ... }
+class Pedido { RegraImposto regra; }</code></pre><p>Tipos e indireção sem um problema de variação: custo sem benefício.</p></article></div>
+    </section>
+    <footer><span>Unidade 2 · Aula 2 — Prof. Nataniel Paiva</span><a href="#guia">Voltar aos fundamentos ↑</a></footer>
+</main>
+</body>
+</html>
